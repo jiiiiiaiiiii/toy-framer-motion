@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 const Wrapper = styled(motion.div)`
   height: 100vh;
@@ -35,15 +36,38 @@ const Circle = styled(motion.div)`
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
+const Btn = styled(motion.button)`
+  position: absolute;
+  bottom: 10%;
+  height: 50px;
+  width: 100px;
+  border-radius: 10px;
+  font-size: 20px;
+  &:active {
+    scale: 1.5;
+    color: red;
+  }
+`;
+
 function App() {
+  const [move, setMove] = useState(false);
+  const moveCircle = () => {
+    setMove(prev => !prev);
+  }
+
   return (
     <Wrapper>
       <Grid>
         <Box />
-        <Box><Circle /></Box>
-        <Box><Circle /></Box>
+        <Box>
+          {move ? <Circle layoutId='circle'/> : null}
+        </Box>
+        <Box>
+          {!move ? <Circle layoutId='circle'/> : null}
+        </Box>
         <Box />
       </Grid>
+      <Btn onClick={moveCircle}>Switch</Btn>
     </Wrapper>
   );
 }
