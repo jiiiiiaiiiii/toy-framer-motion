@@ -13,7 +13,6 @@ const Wrapper = styled(motion.div)`
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  width: 50vw;
   gap: 20px;
 `;
 
@@ -38,15 +37,16 @@ const Circle = styled(motion.div)`
 
 const Btn = styled(motion.button)`
   position: absolute;
-  bottom: 10%;
+  bottom: 5%;
+  background-color: rgb(227, 154, 227);
+  color: rgb(255, 255, 255);
   height: 50px;
   width: 100px;
-  border-radius: 10px;
   font-size: 20px;
-  &:active {
-    scale: 1.5;
-    color: red;
-  }
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
 const Overlay = styled(motion.div)`
@@ -59,11 +59,21 @@ const Overlay = styled(motion.div)`
 `;
 
 const boxVars = {
-  extention: (first: number|null) => ({
+  extention: (first: number | null) => ({
     originX: first ? 1 : 0,
     originY: first ? 1 : 0,
     scale: 1.15,
   }),
+};
+
+const btnVars = {
+  hover: {
+    scale: 1.2,
+    color: 'rgb(255, 0, 191)',
+  },
+  click: {
+    color: 'rgb(128, 0, 128)',
+  },
 };
 
 function App() {
@@ -93,11 +103,17 @@ function App() {
             onClick={() => setId('last')}
           />
         </Grid>
-        <Btn onClick={moveCircle}>Switch</Btn>
-      </AnimatePresence>
+        <Btn
+          onClick={moveCircle}
+          variants={btnVars}
+          whileHover='hover'
+          whileTap='click'
+        >
+          Switch
+        </Btn>
 
-      {/* Overlay */}
-      <AnimatePresence>
+        {/* Overlay */}
+
         {id ? (
           <Overlay
             onClick={() => setId(null)}
