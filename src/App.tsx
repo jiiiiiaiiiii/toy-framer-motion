@@ -49,25 +49,45 @@ const Btn = styled(motion.button)`
   }
 `;
 
+const Overlay = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 function App() {
   const [move, setMove] = useState(false);
   const moveCircle = () => {
-    setMove(prev => !prev);
-  }
+    setMove((prev) => !prev);
+  };
+  const [id, setId] = useState<string | null>(null);
 
   return (
     <Wrapper>
       <Grid>
-        <Box />
-        <Box>
-          {move ? <Circle layoutId='circle'/> : null}
-        </Box>
-        <Box>
-          {!move ? <Circle layoutId='circle'/> : null}
-        </Box>
-        <Box />
+        <Box layoutId='first' onClick={() => setId('first')}/>
+        <Box>{move ? <Circle layoutId='circle' /> : null}</Box>
+        <Box>{!move ? <Circle layoutId='circle' /> : null}</Box>
+        <Box layoutId='last' onClick={() => setId('last')}/>
       </Grid>
       <Btn onClick={moveCircle}>Switch</Btn>
+
+      {/* Overlay */}
+      <AnimatePresence>
+        {id ? (
+          <Overlay
+            onClick={() => setId(null)}
+            initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+            animate={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+            exit={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+          >
+            <Box layoutId={id} style={{ width: 500, height: 300, backgroundColor: 'white' }} />
+          </Overlay>
+        ) : null}
+      </AnimatePresence>
     </Wrapper>
   );
 }
